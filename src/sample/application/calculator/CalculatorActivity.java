@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +18,7 @@ public class CalculatorActivity extends Activity {
 	public static String num1;				//＋押下後、表示領域の数字を格納
 	public static String num2;				//=押下後、表示領域の数字を格納
 	public static String math;				//演算子格納
-	public static int result_int;			//計算結果(int)
+	public static Integer result_int;			//計算結果(int)
 	public static double result_double;		//計算結果(double)
 	public static String result_str = "";	//表示用計算結果
 	
@@ -31,14 +31,20 @@ public class CalculatorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
+        this.readPreferences();
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_calculator, menu);
         return true;
     }
     
+    @Override
+    public void onStop(){
+    	super.onStop();
+    	this.writePreferences();
+    }
     
     //レイアウトのxmlファイルに設定されているonClickに"numKeyOnClick"が設定される場合に、このメソッドが実行される。
     public void numKeyOnClick(View v){
@@ -226,4 +232,23 @@ public class CalculatorActivity extends Activity {
     		return result.toString();
     	}
     }
+    
+    public void writePreferences(){
+    	SharedPreferences prefs = this.getSharedPreferences("CalcPrefs", MODE_PRIVATE);
+    	SharedPreferences.Editor editor = prefs.edit();
+    	editor.putString("strTemp", this.strTemp);
+    	editor.putString("strResult", this.strResult);
+    	editor.putInt("operator", this.operator);
+    	editor.putString("strDisplay",((TextView)findViewById(R.id.displayPanel)).getText().toString());
+    	editor.commit();
+    }
+    
+    public void readPreferences(){
+    	SharedPreferences prefs = this.getSharedPreferences("CalcPrefs", MODE_PRIVATE);
+    	this.strTemp = prefs.getString("strTemp", "");
+    	this.strResult = prefs.getString("strResult", "0");
+    	this.operator = prefs.getInt("operator", 0);
+    	((TextView)findViewById(R.id.displayPanel)).setText(prefs.getString("strDisplay", "0"));
+    }
+    
 }
