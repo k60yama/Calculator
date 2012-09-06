@@ -15,6 +15,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
     
+    <TextView 
+        android:id="@+id/subPanel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -28,6 +32,7 @@
             
             <Button
 	        	android:id="@+id/keypadCopy"
+	        	android:onClick="functionKeyOnClick"
     	    	android:text="Copy"
         		android:padding="0dp"
         		android:textSize="24sp"
@@ -36,6 +41,7 @@
             
             <Button
 	        	android:id="@+id/keypadC"
+    	    	android:onClick="functionKeyOnClick"
     	    	android:text="C"
         		android:padding="0dp"
         		android:textSize="24sp"
@@ -44,6 +50,7 @@
             
             <Button
 	        	android:id="@+id/keypadAC"
+    	    	android:onClick="functionKeyOnClick"
     	    	android:text="AC"
         		android:padding="0dp"
         		android:textSize="24sp"
@@ -52,6 +59,7 @@
             
             <Button
 	        	android:id="@+id/keypadBS"
+    	    	android:onClick="functionKeyOnClick"
     	    	android:text="BS"
         		android:padding="0dp"
         		android:textSize="24sp"

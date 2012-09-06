@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.ClipboardManager;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
@@ -18,7 +19,7 @@ public class CalculatorActivity extends Activity {
 	public static String num1;				//＋押下後、表示領域の数字を格納
 	public static String num2;				//=押下後、表示領域の数字を格納
 	public static String math;				//演算子格納
-	public static Integer result_int;			//計算結果(int)
+	public static Integer result_int;		//計算結果(int)
 	public static double result_double;		//計算結果(double)
 	public static String result_str = "";	//表示用計算結果
 	
@@ -26,7 +27,7 @@ public class CalculatorActivity extends Activity {
 	public String strTemp = "";
 	public String strResult = "0";
 	public Integer operator = 0;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,6 +179,32 @@ public class CalculatorActivity extends Activity {
     }
     //自作 ここまで
     */
+    
+    public void functionKeyOnClick(View v){
+    	
+    	switch(v.getId()){
+    	case R.id.keypadAC:
+    		this.strTemp = "";
+    		this.strResult = "0";
+    		this.operator = 0;
+    		break;
+    	case R.id.keypadC:
+    		this.strTemp = "";
+    		break;
+    	case R.id.keypadBS:
+    		if(this.strTemp.length() == 0){
+    			return ;
+    		}else{
+    			this.strTemp = this.strTemp.substring(0,this.strTemp.length()-1);
+    		}
+    		break;
+    	case R.id.keypadCopy:
+    		ClipboardManager cm = (ClipboardManager)this.getSystemService(CLIPBOARD_SERVICE);
+    		cm.setText(((TextView)findViewById(R.id.displayPanel)).getText());
+    		return;
+    	}
+    	showNumber(this.strTemp);
+    }
     
     public void operatorKeyOnClick(View v){
      
