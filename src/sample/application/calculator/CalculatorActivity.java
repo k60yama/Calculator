@@ -2,6 +2,8 @@ package sample.application.calculator;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,6 +30,17 @@ public class CalculatorActivity extends Activity {
 	public String strResult = "0";
 	public Integer operator = 0;
 
+	//HashMap
+	private static Map<Integer,FunctionLogic> funcMap;
+	
+	static{
+		CalculatorActivity.funcMap = new HashMap<Integer, FunctionLogic>();
+		CalculatorActivity.funcMap.put(R.id.keypadAC, new Ac());
+		CalculatorActivity.funcMap.put(R.id.keypadC, new C());
+		CalculatorActivity.funcMap.put(R.id.keypadBS, new Bs());
+		CalculatorActivity.funcMap.put(R.id.keypadCopy, new Copy());
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +117,7 @@ public class CalculatorActivity extends Activity {
 		*/
     }
     
-    private void showNumber(String strNum){
+    public void showNumber(String strNum){
     	
     	//整数時に先頭が0の場合、DecimalFormatに指定している#の役割で、自動的に0が消える。
     	DecimalFormat form = new DecimalFormat("#,##0");
@@ -182,6 +195,11 @@ public class CalculatorActivity extends Activity {
     
     public void functionKeyOnClick(View v){
     	
+    	
+    	FunctionLogic logic = funcMap.get(v.getId());
+    	logic.doFunction(this);
+    	
+    	/*
     	switch(v.getId()){
     	case R.id.keypadAC:
     		this.strTemp = "";
@@ -204,6 +222,7 @@ public class CalculatorActivity extends Activity {
     		return;
     	}
     	showNumber(this.strTemp);
+    	*/
     }
     
     public void operatorKeyOnClick(View v){
